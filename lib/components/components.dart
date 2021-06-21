@@ -4,3 +4,5 @@ export 'recipes_screen.dart';
 export 'recipe_thumbnail.dart';
 export 'recipes_grid_view.dart';
 export 'grocery_tile.dart';
+export 'app_state_manager.dart';
+export 'profile_manager.dart';

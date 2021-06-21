@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:open/components/app_state_manager.dart';
 import 'package:open/components/recipes_screen.dart';
-import 'package:open/model/models.dart';
 import 'package:provider/provider.dart';
 
-import 'card_one.dart';
-import 'card_three.dart';
-import 'card_two.dart';
 import 'explore_screen.dart';
 import 'grocery_screen.dart';
 
@@ -25,22 +22,22 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<TabManager>(builder: (context, tabManager, child) {
+    return Consumer<AppStateManager>(builder: (context, stateManager, child) {
       return Scaffold(
         appBar: AppBar(
             title: Text('Fooderlich',
                 // 2
                 style: Theme.of(context).textTheme.headline6)),
         body: IndexedStack(
-          index: tabManager.selectedTab,
+          index: stateManager.getSelectedTab,
           children: pages,
         ),
         bottomNavigationBar: BottomNavigationBar(
           selectedItemColor:
               Theme.of(context).textSelectionTheme.selectionColor,
-          currentIndex: tabManager.selectedTab,
+          currentIndex: stateManager.getSelectedTab,
           onTap: (index) {
-            tabManager.gotoTab(index);
+            stateManager.goToTab(index);
           },
           items: [
             const BottomNavigationBarItem(
