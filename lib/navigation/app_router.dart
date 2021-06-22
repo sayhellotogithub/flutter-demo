@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:open/components/components.dart';
 import 'package:open/model/fooderlich_pages.dart';
 import 'package:open/model/grocery_item_screen.dart';
-import 'package:open/model/grocery_manager.dart';
+import 'package:open/components/grocery_manager.dart';
 import 'package:open/page/home.dart';
 import 'package:open/page/login_screen.dart';
 import 'package:open/page/onboard.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:open/model/grocery_manager.dart';
+import 'package:open/components/grocery_manager.dart';
 import 'package:provider/provider.dart';
 import 'components/components.dart';
 import 'navigation/app_router.dart';
@@ -45,12 +45,18 @@ class _MyAppState extends State<MyApp> {
       ],
       child: Consumer<ProfileManager>(
         builder: (context, profileManager, child) {
-          ThemeData theme = FooderlichTheme.dark();
+          ThemeData theme;
+          if (profileManager.darkMode) {
+            theme = FooderlichTheme.dark();
+          } else {
+            theme = FooderlichTheme.light();
+          }
           return MaterialApp(
             theme: theme,
             title: "title",
             home: Router(
               routerDelegate: _appRouter,
+              backButtonDispatcher: RootBackButtonDispatcher(),
             ),
           );
         },
