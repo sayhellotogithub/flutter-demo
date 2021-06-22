@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:open/components/grocery_manager.dart';
+import 'package:open/model/grocery_manager.dart';
 import 'package:provider/provider.dart';
 import 'components/components.dart';
+import 'navigation/app_route_parser.dart';
 import 'navigation/app_router.dart';
 import 'theme/fooderlich_theme.dart';
 
@@ -24,6 +25,7 @@ class _MyAppState extends State<MyApp> {
   final _appStateManager = AppStateManager();
   final _groceryManager = GroceryManager();
   final _profileManager = ProfileManager();
+  final routeParser = AppRouteParser();
 
   @override
   void initState() {
@@ -41,7 +43,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(create: (context) => _appStateManager),
         ChangeNotifierProvider(create: (context) => _groceryManager),
-        ChangeNotifierProvider(create: (context) => _profileManager)
+        ChangeNotifierProvider(create: (context) => _profileManager),
       ],
       child: Consumer<ProfileManager>(
         builder: (context, profileManager, child) {
@@ -51,13 +53,12 @@ class _MyAppState extends State<MyApp> {
           } else {
             theme = FooderlichTheme.light();
           }
-          return MaterialApp(
+          return MaterialApp.router(
             theme: theme,
             title: "title",
-            home: Router(
-              routerDelegate: _appRouter,
-              backButtonDispatcher: RootBackButtonDispatcher(),
-            ),
+            backButtonDispatcher: RootBackButtonDispatcher(),
+            routeInformationParser: routeParser,
+            routerDelegate: _appRouter,
           );
         },
       ),

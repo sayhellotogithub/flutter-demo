@@ -32,6 +32,13 @@ class GroceryManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setSelectedGroceryItem(String id) {
+    final index = groceryItems.indexWhere((element) => element.id == id);
+    if (index != -1) {
+      groceryItemTapped(index);
+    }
+  }
+
   void groceryItemBackNothingChange() {
     _selectedIndex = null;
     _createNewItem = false;

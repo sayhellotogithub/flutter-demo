@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:open/components/circle_img.dart';
 import 'package:open/components/components.dart';
 import 'package:open/model/fooderlich_pages.dart';
 import 'package:open/model/models.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatefulWidget {
   static MaterialPage page(User user) {
@@ -59,9 +61,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         buildDarkModeRow(),
         ListTile(
           title: const Text('View raywenderlich.com'),
-          onTap: () {
-            Provider.of<ProfileManager>(context, listen: false)
-                .tapOnRaywenderlich(true);
+          onTap: () async{
+            if (kIsWeb) {
+              await launch("https://www.raywenderlich.com/");
+            } else {
+              Provider.of<ProfileManager>(context, listen: false)
+                  .tapOnRaywenderlich(true);
+            }
           },
         ),
         ListTile(
@@ -88,7 +94,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Switch(
             value: widget.user.darkMode ?? true,
             onChanged: (value) {
-              Provider.of<ProfileManager>(context, listen: false).darkMode =
+              Provider
+                  .of<ProfileManager>(context, listen: false)
+                  .darkMode =
                   value;
             },
           )

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:open/components/app_state_manager.dart';
+import 'package:open/model/app_state_manager.dart';
 import 'package:open/components/components.dart';
 import 'package:open/components/recipes_screen.dart';
 import 'package:open/model/fooderlich_pages.dart';
@@ -9,15 +9,16 @@ import 'explore_screen.dart';
 import 'grocery_screen.dart';
 
 class Home extends StatefulWidget {
+  final int currentTab;
   static MaterialPage page(int currentTab) {
     return MaterialPage(
       name: FooderlichPages.home,
       key: ValueKey(FooderlichPages.home),
-      child: Home(),
+      child: Home(currentTab: currentTab,),
     );
   }
 
-  const Home({Key? key}) : super(key: key);
+  const Home({Key? key,required this.currentTab}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -41,15 +42,15 @@ class _HomeState extends State<Home> {
           actions: [profileButton()],
         ),
         body: IndexedStack(
-          index: stateManager.getSelectedTab,
+          index: widget.currentTab,
           children: pages,
         ),
         bottomNavigationBar: BottomNavigationBar(
           selectedItemColor:
               Theme.of(context).textSelectionTheme.selectionColor,
-          currentIndex: stateManager.getSelectedTab,
+          currentIndex: widget.currentTab,
           onTap: (index) {
-            stateManager.goToTab(index);
+            Provider.of<AppStateManager>(context, listen: false).goToTab(index);
           },
           items: [
             const BottomNavigationBarItem(
