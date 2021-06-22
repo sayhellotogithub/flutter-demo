@@ -3,21 +3,53 @@ import 'package:open/model/grocery_item.dart';
 
 class GroceryManager extends ChangeNotifier {
   final _groceryItems = <GroceryItem>[];
+  bool _createNewItem = false;
+  int? _selectedIndex = null;
 
   List<GroceryItem> get groceryItems => List.unmodifiable(_groceryItems);
+
+  int? get selectedIndex => _selectedIndex;
+
+  GroceryItem? selectedGroceryItem;
+
+  bool get isCreatingNewItem => _createNewItem;
 
   void deleteItem(int index) {
     _groceryItems.removeAt(index);
     notifyListeners();
   }
 
-  void addItem(GroceryItem item) {
-    _groceryItems.add(item);
+  void createNewItem() {
+    _selectedIndex = null;
+    _createNewItem = true;
     notifyListeners();
   }
 
-  void updateItem(GroceryItem item, int index) {
-    _groceryItems[index] = item;
+  void groceryItemTapped(int index) {
+    _selectedIndex = index;
+    _createNewItem = false;
+    selectedGroceryItem = _groceryItems[index];
+    notifyListeners();
+  }
+
+  void groceryItemBackNothingChange() {
+    _selectedIndex = null;
+    _createNewItem = false;
+    notifyListeners();
+  }
+
+  void addItem(GroceryItem item) {
+    _groceryItems.add(item);
+    _createNewItem = false;
+    notifyListeners();
+  }
+
+  void updateItem(GroceryItem item, int? index) {
+    if (index != null) {
+      _groceryItems[index] = item;
+    }
+    _selectedIndex = null;
+    _createNewItem = false;
     notifyListeners();
   }
 

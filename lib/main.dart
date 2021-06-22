@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:open/model/grocery_manager.dart';
+import 'package:provider/provider.dart';
 import 'components/components.dart';
 import 'navigation/app_router.dart';
+import 'theme/fooderlich_theme.dart';
 
 void main() {
-  runApp( const MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -35,11 +37,23 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData.dark(),
-      home: Router(
-        routerDelegate: _appRouter,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => _appStateManager),
+        ChangeNotifierProvider(create: (context) => _groceryManager),
+        ChangeNotifierProvider(create: (context) => _profileManager)
+      ],
+      child: Consumer<ProfileManager>(
+        builder: (context, profileManager, child) {
+          ThemeData theme = FooderlichTheme.dark();
+          return MaterialApp(
+            theme: theme,
+            title: "title",
+            home: Router(
+              routerDelegate: _appRouter,
+            ),
+          );
+        },
       ),
     );
   }

@@ -6,8 +6,25 @@ import 'package:intl/intl.dart';
 import 'package:open/components/grocery_tile.dart';
 import 'package:open/model/grocery_item.dart';
 import 'package:uuid/uuid.dart';
+import 'fooderlich_pages.dart';
 
 class GroceryItemScreen extends StatefulWidget {
+  static MaterialPage page({
+    Function(GroceryItem)? onCreate,
+    Function(GroceryItem)? onUpdate,
+    GroceryItem? item,
+  }) {
+    return MaterialPage(
+      name: FooderlichPages.groceryItemDetails,
+      key: ValueKey(FooderlichPages.groceryItemDetails),
+      child: GroceryItemScreen(
+        onCreate: onCreate,
+        onUpdate: onUpdate,
+        originalItem: item,
+      ),
+    );
+  }
+
   final Function(GroceryItem)? onCreate;
   final Function(GroceryItem)? onUpdate;
 

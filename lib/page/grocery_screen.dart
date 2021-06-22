@@ -20,17 +20,7 @@ class GroceryScreen extends StatelessWidget {
             color: Colors.white,
           ),
           onPressed: () {
-            final manager = Provider.of<GroceryManager>(context, listen: false);
-
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => GroceryItemScreen(
-                          onCreate: (item) {
-                            manager.addItem(item);
-                            Navigator.pop(context);
-                          },
-                        )));
+            Provider.of<GroceryManager>(context, listen: false).createNewItem();
           },
         ),
         body: buildGroceryScreen());
