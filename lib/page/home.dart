@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:open/model/app_state_manager.dart';
+import 'package:open/statemanager/app_state_manager.dart';
 import 'package:open/components/components.dart';
 import 'package:open/components/recipes_screen.dart';
 import 'package:open/model/fooderlich_pages.dart';
 import 'package:provider/provider.dart';
 
-import 'explore_screen.dart';
-import 'grocery_screen.dart';
+import 'explore/explore_screen.dart';
+import 'buy/grocery_screen.dart';
 
 class Home extends StatefulWidget {
   final int currentTab;

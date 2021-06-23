@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:open/model/app_state_manager.dart';
+import 'package:open/statemanager/app_state_manager.dart';
 import 'package:open/model/models.dart';
 import 'package:provider/provider.dart';
 

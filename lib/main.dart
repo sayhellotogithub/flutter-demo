@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:open/model/grocery_manager.dart';
+import 'package:open/statemanager/grocery_manager.dart';
 import 'package:provider/provider.dart';
 import 'components/components.dart';
 import 'navigation/app_route_parser.dart';
 import 'navigation/app_router.dart';
+import 'statemanager/recipe_manager.dart';
 import 'theme/fooderlich_theme.dart';
 import 'configure_nonweb.dart' if (dart.library.html) 'configure_web.dart';
 
@@ -27,6 +28,7 @@ class _MyAppState extends State<MyApp> {
   final _appStateManager = AppStateManager();
   final _groceryManager = GroceryManager();
   final _profileManager = ProfileManager();
+  final _recipeManager = RecipeManager();
   final routeParser = AppRouteParser();
 
   @override
@@ -34,7 +36,8 @@ class _MyAppState extends State<MyApp> {
     _appRouter = AppRouter(
         appStateManager: _appStateManager,
         groceryManager: _groceryManager,
-        profileManager: _profileManager);
+        profileManager: _profileManager,
+        recipeManager: _recipeManager);
 
     super.initState();
   }
@@ -46,6 +49,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => _appStateManager),
         ChangeNotifierProvider(create: (context) => _groceryManager),
         ChangeNotifierProvider(create: (context) => _profileManager),
+        ChangeNotifierProvider(create: (context) => _recipeManager)
       ],
       child: Consumer<ProfileManager>(
         builder: (context, profileManager, child) {

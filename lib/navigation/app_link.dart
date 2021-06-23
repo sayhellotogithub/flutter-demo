@@ -6,9 +6,12 @@ class AppLink {
   static const String kLoginPath = '/login';
   static const String kProfilePath = '/profile';
   static const String kItemPath = '/item';
+  static const String kSearchPath = '/search';
 
   static const String kTabParam = 'tab';
   static const String kIdParam = 'id';
+
+
 
   String? location;
 
@@ -44,6 +47,8 @@ class AppLink {
         return kOnboardingPath;
       case kProfilePath:
         return kProfilePath;
+      case kSearchPath:
+        return kSearchPath;
       case kItemPath:
         var loc = '$kItemPath?';
         loc += addKeyValPair(key: kIdParam, value: itemId);

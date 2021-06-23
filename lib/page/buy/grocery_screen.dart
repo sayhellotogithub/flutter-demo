@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:open/model/grocery_item_screen.dart';
-import 'package:open/model/grocery_manager.dart';
-import 'package:open/page/grocery_list_screen.dart';
+import 'package:open/statemanager/grocery_manager.dart';
+import 'package:open/page/recipe/grocery_list_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'empty_grocery_screen.dart';

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:open/network/recipe_model.dart';
 import '../model/models.dart';
 
 // Mock recipe service that grabs sample json data to mock recipe request/response
@@ -21,11 +22,8 @@ class MockFooderlichService {
     final dataString =
         await _loadAsset('assets/sample_data/sample_explore_recipes.json');
 
-    print(dataString);
     // Decode to json
     final Map<String, dynamic> json = jsonDecode(dataString);
-
-    print("json:$json");
 
     // Go through each recipe and convert json to ExploreRecipe object.
     if (json['recipes'] != null) {
@@ -81,6 +79,11 @@ class MockFooderlichService {
     } else {
       return [];
     }
+  }
+
+  Future<APIRecipeQuery> loadRecipes() async {
+    final jsonString = await _loadAsset('assets/sample_data/recipes1.json');
+    return APIRecipeQuery.fromJson(jsonDecode(jsonString));
   }
 
   // Loads sample json data from file system

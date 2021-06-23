@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:open/components/components.dart';
 import 'package:open/model/fooderlich_pages.dart';
 import 'package:open/model/grocery_item_screen.dart';
-import 'package:open/model/grocery_manager.dart';
+import 'package:open/page/recipe/search_recipe_screen.dart';
+import 'package:open/statemanager/grocery_manager.dart';
 import 'package:open/page/home.dart';
 import 'package:open/page/login_screen.dart';
 import 'package:open/page/onboard.dart';
 import 'package:open/page/profile_screen.dart';
 import 'package:open/page/splash_screen.dart';
 import 'package:open/page/webview_screen.dart';
+import 'package:open/statemanager/recipe_manager.dart';
 
 import 'app_link.dart';
 
@@ -23,14 +25,18 @@ class AppRouter extends RouterDelegate<AppLink>
 
   final ProfileManager profileManager;
 
+  final RecipeManager recipeManager;
+
   AppRouter(
       {required this.appStateManager,
       required this.groceryManager,
-      required this.profileManager})
+      required this.profileManager,
+      required this.recipeManager})
       : navigatorKey = GlobalKey<NavigatorState>() {
     appStateManager.addListener(notifyListeners);
     groceryManager.addListener(notifyListeners);
     profileManager.addListener(notifyListeners);
+    recipeManager.addListener(notifyListeners);
   }
 
   @override
@@ -38,6 +44,7 @@ class AppRouter extends RouterDelegate<AppLink>
     appStateManager.removeListener(notifyListeners);
     groceryManager.removeListener(notifyListeners);
     profileManager.removeListener(notifyListeners);
+    recipeManager.removeListener(notifyListeners);
     super.dispose();
   }
 
@@ -69,12 +76,14 @@ class AppRouter extends RouterDelegate<AppLink>
           ),
         if (profileManager.didSelectUser)
           ProfileScreen.page(profileManager.getUser),
-        if (profileManager.didTapOnRaywenderlich) WebViewScreen.page()
+        if (profileManager.didTapOnRaywenderlich) WebViewScreen.page(),
+        if (recipeManager.didSearchClick) SearchRecipeScreen.page()
       ],
     );
   }
 
   bool _handlePopPage(Route<dynamic> route, result) {
+    print("_handlePopPage:$route");
     if (!route.didPop(result)) {
       return false;
     }
@@ -90,14 +99,21 @@ class AppRouter extends RouterDelegate<AppLink>
     if (route.settings.name == FooderlichPages.raywenderlich) {
       profileManager.tapOnRaywenderlich(false);
     }
+    if (route.settings.name == FooderlichPages.searchRecipePath) {
+      recipeManager.tapOnSearch(false);
+    }
     return true;
   }
 
   @override
   Future<void> setNewRoutePath(AppLink newLink) async {
+    print("setNewRoutePath:$newLink");
     switch (newLink.location) {
       case AppLink.kProfilePath:
         profileManager.tapOnProfile(true);
+        break;
+      case AppLink.kSearchPath:
+        recipeManager.tapOnSearch(true);
         break;
       case AppLink.kItemPath:
         if (newLink.itemId != null) {
@@ -133,6 +149,8 @@ class AppRouter extends RouterDelegate<AppLink>
     } else if (groceryManager.selectedGroceryItem != null) {
       final id = groceryManager.selectedGroceryItem?.id ?? "";
       return AppLink(location: AppLink.kItemPath, itemId: id);
+    } else if (recipeManager.didSearchClick) {
+      return AppLink(location: AppLink.kSearchPath);
     } else {
       return AppLink(
           location: AppLink.kHomePath,
