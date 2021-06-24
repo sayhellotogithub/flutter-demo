@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 import 'package:open/statemanager/grocery_manager.dart';
 import 'package:provider/provider.dart';
 import 'components/components.dart';
@@ -10,7 +11,15 @@ import 'configure_nonweb.dart' if (dart.library.html) 'configure_web.dart';
 
 void main() {
   configureApp();
+  _setupLogging();
   runApp(const MyApp());
+}
+
+void _setupLogging() {
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((event) {
+    print('${event.level.name}: ${event.time}: ${event.message}');
+  });
 }
 
 class MyApp extends StatefulWidget {

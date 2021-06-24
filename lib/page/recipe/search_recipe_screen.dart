@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:open/components/custom_dropdown.dart';
 import 'package:open/components/recipe.dart';
 import 'package:open/model/fooderlich_pages.dart';
+import 'package:open/network/model_response.dart';
 import 'package:open/network/recipe_model.dart';
 import 'package:open/network/recipe_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -68,12 +70,12 @@ class _SearchRecipeScreenState extends State<SearchRecipeScreen> {
       });
   }
 
-  Future<APIRecipeQuery> getRecipeData(String query, int from, int to) async {
-    final recipeJson = await RecipeService().getRecipes(query, from, to);
-    print(recipeJson);
-    final recipeMap = jsonDecode(recipeJson);
-    return APIRecipeQuery.fromJson(recipeMap);
-  }
+//  Future<APIRecipeQuery> getRecipeData(String query, int from, int to) async {
+//    final recipeJson = await RecipeService().getRecipes(query, from, to);
+//    print(recipeJson);
+//    final recipeMap = jsonDecode(recipeJson);
+//    return APIRecipeQuery.fromJson(recipeMap);
+//  }
 
   @override
   void dispose() {
@@ -159,6 +161,7 @@ class _SearchRecipeScreenState extends State<SearchRecipeScreen> {
                     callback: () {
                       setState(() {
                         previousSearches.remove(value);
+                        savePreviousSearches();
                         Navigator.pop(context);
                       });
                     },
@@ -243,7 +246,7 @@ class _SearchRecipeScreenState extends State<SearchRecipeScreen> {
     if (searchTextController.text.length < 3) {
       return Container();
     }
-    return FutureBuilder<APIRecipeQuery>(
+    return FutureBuilder<Response<Result<APIRecipeQuery>>>(
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
@@ -257,9 +260,16 @@ class _SearchRecipeScreenState extends State<SearchRecipeScreen> {
             );
           }
           loading = false;
-          inErrorState = false;
-          final query = snapshot.data;
+
+          final result = snapshot.data?.body;
+          if (result is Error) {
+            inErrorState = true;
+            return _buildRecipeList(context, currentSearchList);
+          }
+
+          final query = (result as Success).value;
           print("query:$query");
+
           if (query != null) {
             currentCount = query.count ?? 0;
             hasMore = query.more ?? false;
@@ -282,8 +292,10 @@ class _SearchRecipeScreenState extends State<SearchRecipeScreen> {
           }
         }
       },
-      future: getRecipeData(searchTextController.text.trim(),
-          currentStartPosition, currentEndPosition),
+      future: RecipeService.create().queryRecipes(
+          searchTextController.text.trim(),
+          currentStartPosition,
+          currentEndPosition),
     );
   }
 }
