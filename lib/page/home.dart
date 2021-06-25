@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:open/page/recipe/my_recipes_list.dart';
 import 'package:open/statemanager/app_state_manager.dart';
 import 'package:open/components/components.dart';
 import 'package:open/components/recipes_screen.dart';
@@ -10,15 +11,18 @@ import 'buy/grocery_screen.dart';
 
 class Home extends StatefulWidget {
   final int currentTab;
+
   static MaterialPage page(int currentTab) {
     return MaterialPage(
       name: FooderlichPages.home,
       key: ValueKey(FooderlichPages.home),
-      child: Home(currentTab: currentTab,),
+      child: Home(
+        currentTab: currentTab,
+      ),
     );
   }
 
-  const Home({Key? key,required this.currentTab}) : super(key: key);
+  const Home({Key? key, required this.currentTab}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -28,7 +32,8 @@ class _HomeState extends State<Home> {
   static List<Widget> pages = <Widget>[
     ExploreScreen(),
     RecipesScreen(),
-    GroceryScreen()
+    GroceryScreen(),
+    MyRecipesList()
   ];
 
   @override
@@ -47,7 +52,7 @@ class _HomeState extends State<Home> {
         ),
         bottomNavigationBar: BottomNavigationBar(
           selectedItemColor:
-              Theme.of(context).textSelectionTheme.selectionColor,
+              Colors.white,
           currentIndex: widget.currentTab,
           onTap: (index) {
             Provider.of<AppStateManager>(context, listen: false).goToTab(index);
@@ -58,7 +63,9 @@ class _HomeState extends State<Home> {
             const BottomNavigationBarItem(
                 icon: Icon(Icons.book), label: "Recipes"),
             const BottomNavigationBarItem(
-                icon: Icon(Icons.list), label: "To Buy")
+                icon: Icon(Icons.list), label: "To Buy"),
+            const BottomNavigationBarItem(
+                icon: Icon(Icons.favorite), label: "BookMark"),
           ],
         ),
       );

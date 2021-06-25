@@ -2,13 +2,19 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:open/const_field/colors.dart';
+import 'package:open/data/memory_repository.dart';
+import 'package:open/network/recipe_model.dart';
+import 'package:provider/provider.dart';
 
 class RecipeDetails extends StatelessWidget {
-  const RecipeDetails({Key? key}) : super(key: key);
+  final APIRecipe recipe;
+
+  const RecipeDetails({Key? key, required this.recipe}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final repository = Provider.of<MemoryRepository>(context);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -22,9 +28,7 @@ class RecipeDetails extends StatelessWidget {
                     Align(
                       alignment: Alignment.topLeft,
                       child: CachedNetworkImage(
-                        // TODO 1
-                        imageUrl:
-                        'https://www.edamam.com/web-img/e42/e42f9119813e890af34c259785ae1cfb.jpg',
+                        imageUrl: recipe.image??"",
                         alignment: Alignment.topLeft,
                         fit: BoxFit.fill,
                         width: size.width,
@@ -45,22 +49,20 @@ class RecipeDetails extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(left: 16.0),
                   child: Text(
-                    // TODO 2
-                    'Chicken Vesuvio',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    recipe.label??"",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold,color: Colors.green),
                   ),
                 ),
                 const SizedBox(
                   height: 16,
                 ),
-                const Padding(
+                Padding(
                     padding: EdgeInsets.only(left: 16.0),
                     child: Chip(
-                      // TODO 3
-                      label: Text('16CAL'),
+                      label: Text(getCalories(recipe.calories)),
                     )),
                 const SizedBox(
                   height: 16,
@@ -68,16 +70,16 @@ class RecipeDetails extends StatelessWidget {
                 Center(
                   child: ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      primary:green,
+                      primary: green,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16.0)),
                     ),
                     onPressed: () {
-                      // TODO 4
+                      repository.insertRecipe(recipe);
                       Navigator.pop(context);
                     },
                     icon: SvgPicture.asset(
-                      'assets/images/icon_bookmark.svg',
+                      'assets/fooderlich_assets/icon_bookmark.svg',
                       color: Colors.white,
                     ),
                     label: const Text(

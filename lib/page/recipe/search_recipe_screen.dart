@@ -207,7 +207,9 @@ class _SearchRecipeScreenState extends State<SearchRecipeScreen> {
       onTap: () {
         Navigator.push(context, MaterialPageRoute(
           builder: (context) {
-            return const RecipeDetails();
+            return RecipeDetails(
+              recipe: recipe,
+            );
           },
         ));
       },

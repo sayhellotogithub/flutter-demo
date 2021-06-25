@@ -42,6 +42,7 @@ class APIHits {
 
 @JsonSerializable()
 class APIRecipe {
+  int? id;
   String? label;
   String? image;
   String? url;
@@ -51,6 +52,7 @@ class APIRecipe {
   double? totalTime;
 
   APIRecipe({
+    this.id,
     this.label,
     this.image,
     this.url,
@@ -85,8 +87,10 @@ class APIIngredients {
   @JsonKey(name: 'text')
   String? name;
   double? weight;
+  int? recipeId;
 
   APIIngredients({
+    this.recipeId,
     this.name,
     this.weight,
   });

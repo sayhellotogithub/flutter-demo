@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:open/components/components.dart';
+import 'package:open/data/memory_repository.dart';
 import 'package:open/model/fooderlich_pages.dart';
 import 'package:open/model/grocery_item_screen.dart';
 import 'package:open/page/recipe/search_recipe_screen.dart';
@@ -27,16 +28,20 @@ class AppRouter extends RouterDelegate<AppLink>
 
   final RecipeManager recipeManager;
 
+  final MemoryRepository memoryRepository;
+
   AppRouter(
       {required this.appStateManager,
       required this.groceryManager,
       required this.profileManager,
-      required this.recipeManager})
+      required this.recipeManager,
+      required this.memoryRepository})
       : navigatorKey = GlobalKey<NavigatorState>() {
     appStateManager.addListener(notifyListeners);
     groceryManager.addListener(notifyListeners);
     profileManager.addListener(notifyListeners);
     recipeManager.addListener(notifyListeners);
+    memoryRepository.addListener(notifyListeners);
   }
 
   @override
@@ -45,6 +50,7 @@ class AppRouter extends RouterDelegate<AppLink>
     groceryManager.removeListener(notifyListeners);
     profileManager.removeListener(notifyListeners);
     recipeManager.removeListener(notifyListeners);
+    memoryRepository.removeListener(notifyListeners);
     super.dispose();
   }
 

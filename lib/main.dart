@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
+import 'package:open/data/memory_repository.dart';
 import 'package:open/statemanager/grocery_manager.dart';
 import 'package:provider/provider.dart';
 import 'components/components.dart';
@@ -39,6 +40,7 @@ class _MyAppState extends State<MyApp> {
   final _profileManager = ProfileManager();
   final _recipeManager = RecipeManager();
   final routeParser = AppRouteParser();
+  final _memoryRepository = MemoryRepository();
 
   @override
   void initState() {
@@ -46,7 +48,8 @@ class _MyAppState extends State<MyApp> {
         appStateManager: _appStateManager,
         groceryManager: _groceryManager,
         profileManager: _profileManager,
-        recipeManager: _recipeManager);
+        recipeManager: _recipeManager,
+        memoryRepository: _memoryRepository);
 
     super.initState();
   }
@@ -58,7 +61,8 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => _appStateManager),
         ChangeNotifierProvider(create: (context) => _groceryManager),
         ChangeNotifierProvider(create: (context) => _profileManager),
-        ChangeNotifierProvider(create: (context) => _recipeManager)
+        ChangeNotifierProvider(create: (context) => _recipeManager),
+        ChangeNotifierProvider(create: (context) => _memoryRepository)
       ],
       child: Consumer<ProfileManager>(
         builder: (context, profileManager, child) {
