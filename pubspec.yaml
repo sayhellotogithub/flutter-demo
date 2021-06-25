@@ -42,6 +42,10 @@ dependencies:
   http: ^0.13.0
   chopper: ^4.0.1
   logging: ^1.0.1
+  sqflite: ^2.0.0+3
+  path_provider: ^2.0.2
+  synchronized: ^3.0.0
+  sqlbrite: ^2.1.0
 
 
   # The following adds the Cupertino Icons font to your application.

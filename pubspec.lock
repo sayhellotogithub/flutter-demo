@@ -416,7 +416,7 @@ packages:
     source: hosted
     version: "0.2.1"
   path_provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path_provider
       url: "https://pub.dartlang.org"
@@ -520,6 +520,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.27.1"
+  rxdart_ext:
+    dependency: transitive
+    description:
+      name: rxdart_ext
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -603,7 +610,7 @@ packages:
     source: hosted
     version: "1.8.0"
   sqflite:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: sqflite
       url: "https://pub.dartlang.org"
@@ -616,6 +623,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0+2"
+  sqlbrite:
+    dependency: "direct main"
+    description:
+      name: sqlbrite
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
   stack_trace:
     dependency: transitive
     description:
@@ -645,7 +659,7 @@ packages:
     source: hosted
     version: "1.1.0"
   synchronized:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: synchronized
       url: "https://pub.dartlang.org"
