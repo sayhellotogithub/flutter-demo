@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
-import 'package:open/data/memory_repository.dart';
+import 'package:open/network/mock/data/memory_stream_repository.dart';
 import 'package:open/statemanager/grocery_manager.dart';
 import 'package:provider/provider.dart';
 import 'components/components.dart';
 import 'navigation/app_route_parser.dart';
 import 'navigation/app_router.dart';
+import 'network/mock/data/memory_repository.dart';
+import 'network/recipe_service.dart';
+import 'network/service_interface.dart';
 import 'statemanager/recipe_manager.dart';
 import 'theme/fooderlich_theme.dart';
 import 'configure_nonweb.dart' if (dart.library.html) 'configure_web.dart';
@@ -40,7 +43,9 @@ class _MyAppState extends State<MyApp> {
   final _profileManager = ProfileManager();
   final _recipeManager = RecipeManager();
   final routeParser = AppRouteParser();
-  final _memoryRepository = MemoryRepository();
+
+//  final _memoryRepository = MemoryRepository();
+  final _memoryStreamRepository = MemoryStreamRepository();
 
   @override
   void initState() {
@@ -48,8 +53,7 @@ class _MyAppState extends State<MyApp> {
         appStateManager: _appStateManager,
         groceryManager: _groceryManager,
         profileManager: _profileManager,
-        recipeManager: _recipeManager,
-        memoryRepository: _memoryRepository);
+        recipeManager: _recipeManager);
 
     super.initState();
   }
@@ -62,7 +66,11 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => _groceryManager),
         ChangeNotifierProvider(create: (context) => _profileManager),
         ChangeNotifierProvider(create: (context) => _recipeManager),
-        ChangeNotifierProvider(create: (context) => _memoryRepository)
+//        ChangeNotifierProvider(create: (context) => _memoryRepository),
+        Provider(create: (_) => _memoryStreamRepository),
+        Provider<ServiceInterface>(
+          create: (_) => RecipeService.create(),
+        )
       ],
       child: Consumer<ProfileManager>(
         builder: (context, profileManager, child) {

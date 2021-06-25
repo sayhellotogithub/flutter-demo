@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:open/const_field/colors.dart';
-import 'package:open/data/memory_repository.dart';
+import 'package:open/network/mock/data/memory_stream_repository.dart';
 import 'package:open/network/recipe_model.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +14,7 @@ class RecipeDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final repository = Provider.of<MemoryRepository>(context);
+    final repository = Provider.of<MemoryStreamRepository>(context);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(

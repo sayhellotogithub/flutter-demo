@@ -6,8 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:open/network/model_response.dart';
 import 'package:open/network/recipe_model.dart';
 import 'package:http/http.dart' as model;
+import 'package:open/network/service_interface.dart';
 
-class MockService {
+class MockService implements ServiceInterface{
   APIRecipeQuery? _currentRecipes1;
   APIRecipeQuery? _currentRecipes2;
   Random nextRecipe = Random();
@@ -22,7 +23,7 @@ class MockService {
     jsonString = await rootBundle.loadString('assets/recipes2.json');
     _currentRecipes2 = APIRecipeQuery.fromJson(jsonDecode(jsonString));
   }
-
+  @override
   Future<Response<Result<APIRecipeQuery>>> queryRecipes(
       String query, int from, int to) {
     model.BaseResponse baseResponse = model.Response("", 200);

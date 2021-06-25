@@ -9,6 +9,8 @@ import 'package:open/model/fooderlich_pages.dart';
 import 'package:open/network/model_response.dart';
 import 'package:open/network/recipe_model.dart';
 import 'package:open/network/recipe_service.dart';
+import 'package:open/network/service_interface.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'recipe_detail_page.dart';
 
@@ -294,7 +296,7 @@ class _SearchRecipeScreenState extends State<SearchRecipeScreen> {
           }
         }
       },
-      future: RecipeService.create().queryRecipes(
+      future: Provider.of<ServiceInterface>(context).queryRecipes(
           searchTextController.text.trim(),
           currentStartPosition,
           currentEndPosition),

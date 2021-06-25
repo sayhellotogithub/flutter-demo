@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:open/data/memory_repository.dart';
+import 'package:open/network/mock/data/memory_stream_repository.dart';
 import 'package:open/network/recipe_model.dart';
 import 'package:provider/provider.dart';
 
@@ -10,7 +10,7 @@ class IngredientList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MemoryRepository>(builder: (context, repository, child) {
+    return Consumer<MemoryStreamRepository>(builder: (context, repository, child) {
       final ingredients = recipe.ingredients ?? [];
       return Scaffold(
           appBar: AppBar(
