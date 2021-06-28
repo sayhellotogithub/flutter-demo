@@ -9,6 +9,7 @@ import 'components/components.dart';
 import 'navigation/app_route_parser.dart';
 import 'navigation/app_router.dart';
 import 'network/mock/data/memory_repository.dart';
+import 'network/moor/moor_repository.dart';
 import 'network/recipe_service.dart';
 import 'network/service_interface.dart';
 import 'statemanager/recipe_manager.dart';
@@ -47,7 +48,7 @@ class _MyAppState extends State<MyApp> {
   final routeParser = AppRouteParser();
 
 //  final _memoryRepository = MemoryRepository();
-  final _memoryStreamRepository = SqliteRepository();
+  final _memoryStreamRepository = MoorRepository();
 
   @override
   void initState() {
@@ -56,6 +57,7 @@ class _MyAppState extends State<MyApp> {
         groceryManager: _groceryManager,
         profileManager: _profileManager,
         recipeManager: _recipeManager);
+    _memoryStreamRepository.init();
 
     super.initState();
   }
