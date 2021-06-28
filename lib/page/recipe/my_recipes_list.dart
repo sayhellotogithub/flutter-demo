@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:open/network/mock/data/memory_stream_repository.dart';
+import 'package:open/network/mock/data/stream_repository.dart';
 import 'package:open/network/recipe_model.dart';
 import 'package:open/page/recipe/ingredient_list.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +23,7 @@ class _MyRecipesListState extends State<MyRecipesList> {
   }
 
   Widget _buildRecipeList(BuildContext context) {
-    final repository = Provider.of<MemoryStreamRepository>(context);
+    final repository = Provider.of<StreamRepository>(context);
     return StreamBuilder<List<APIRecipe>>(
       stream: repository.watchAllRecipes(),
       builder: (context, AsyncSnapshot<List<APIRecipe>> snapshot) {
@@ -96,7 +96,7 @@ class _MyRecipesListState extends State<MyRecipesList> {
     );
   }
 
-  void deleteRecipe(MemoryStreamRepository repository, APIRecipe recipe) async {
+  void deleteRecipe(StreamRepository repository, APIRecipe recipe) async {
     repository.deleteRecipe(recipe);
     setState(() {});
   }

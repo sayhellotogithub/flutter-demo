@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:core';
-import 'package:flutter/foundation.dart';
 import 'package:open/network/mock/data/stream_repository.dart';
 import 'package:open/network/recipe_model.dart';
 
@@ -53,5 +52,10 @@ class MemoryStreamRepository extends StreamRepository {
       _recipeStream = _recipeStreamController.stream;
     }
     return _recipeStream!;
+  }
+
+  @override
+  Future<List<APIIngredients>> findRecipeIngredients(int id) {
+    return Future.value([]);
   }
 }

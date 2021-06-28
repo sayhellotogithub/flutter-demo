@@ -31,7 +31,7 @@ class APIHits {
   APIRecipe? recipe;
 
   APIHits({
-     this.recipe,
+    this.recipe,
   });
 
   factory APIHits.fromJson(Map<String, dynamic> json) =>
@@ -86,17 +86,27 @@ String getWeight(double weight) {
 class APIIngredients {
   @JsonKey(name: 'text')
   String? name;
+
+  int? id;
   double? weight;
   int? recipeId;
 
-  APIIngredients({
-    this.recipeId,
-    this.name,
-    this.weight,
-  });
+  APIIngredients({this.recipeId, this.name, this.weight, this.id});
 
-  factory APIIngredients.fromJson(Map<String, dynamic> json) =>
-      _$APIIngredientsFromJson(json);
+  factory APIIngredients.fromJson(Map<String, dynamic> json) => APIIngredients(
+      name: json['text'], weight: json['weight'], recipeId: json["recipeId"]);
 
-  Map<String, dynamic> toJson() => _$APIIngredientsToJson(this);
+  factory APIIngredients.fromJsonForSqlite(Map<String, dynamic> json) =>
+      APIIngredients(
+          name: json['name'],
+          weight: json['weight'],
+          recipeId: json['recipeId']);
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'name': name,
+      'recipeId': recipeId,
+      'weight': weight,
+    };
+  }
 }

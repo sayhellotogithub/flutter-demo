@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:open/network/mock/data/memory_stream_repository.dart';
+import 'package:open/network/mock/data/stream_repository.dart';
+import 'package:open/network/sqlite/sqlite_repository.dart';
 import 'package:open/statemanager/grocery_manager.dart';
 import 'package:provider/provider.dart';
 import 'components/components.dart';
@@ -45,7 +47,7 @@ class _MyAppState extends State<MyApp> {
   final routeParser = AppRouteParser();
 
 //  final _memoryRepository = MemoryRepository();
-  final _memoryStreamRepository = MemoryStreamRepository();
+  final _memoryStreamRepository = SqliteRepository();
 
   @override
   void initState() {
@@ -67,7 +69,10 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => _profileManager),
         ChangeNotifierProvider(create: (context) => _recipeManager),
 //        ChangeNotifierProvider(create: (context) => _memoryRepository),
-        Provider(create: (_) => _memoryStreamRepository),
+        Provider<StreamRepository>(
+          create: (_) => _memoryStreamRepository,
+          dispose: (_, StreamRepository repository) => repository.close(),
+        ),
         Provider<ServiceInterface>(
           create: (_) => RecipeService.create(),
         )

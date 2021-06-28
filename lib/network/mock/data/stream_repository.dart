@@ -8,6 +8,7 @@ abstract class StreamRepository {
   Future<int> insertRecipe(APIRecipe recipe);
 
   Future<void> deleteRecipe(APIRecipe recipe);
+  Future<List<APIIngredients>> findRecipeIngredients(int id);
 
   Future init();
 
